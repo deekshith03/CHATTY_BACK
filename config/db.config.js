@@ -9,10 +9,11 @@ const connectDB = async () => {
   if (process.env.NODE_ENV === 'test') {
     mongod = await createServer()
     dbUrl = mongod.getUri()
+  } else {
+    dbUrl = process.env.MONGO_DB_URL
   }
   await mongoose.set('strictQuery', false)
   await mongoose.connect(dbUrl)
-  console.log('DB connected')
 }
 
 const disconnectDB = async () => {

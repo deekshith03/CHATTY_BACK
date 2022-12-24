@@ -2,7 +2,8 @@ const { validationResult } = require('express-validator')
 const {
   createUser,
   getUserWithEmail,
-  comparePassword
+  comparePassword,
+  findUsers
 } = require('../services/user.services')
 
 const registerUser = async (req, res) => {
@@ -14,7 +15,8 @@ const registerUser = async (req, res) => {
     const user = await createUser(email, name, password, avatarImage)
     res.status(200).send({
       email: user.email,
-      name: user.name
+      name: user.name,
+      id: user._id
     })
   }
 }
@@ -30,7 +32,12 @@ const loginUser = async (req, res) => {
   if (!canLogin) {
     return res.status(400).send({ error: 'invalid credentials' })
   }
-  res.status(200).send({ email: user.email, name: user.name })
+  res.status(200).send({ email: user.email, name: user.name, id: user._id })
 }
 
-module.exports = { registerUser, loginUser }
+const getUsers = async (req, res) => {
+  const userId = req.params.id
+  res.status(200).send(await findUsers(userId))
+}
+
+module.exports = { registerUser, loginUser, getUsers }

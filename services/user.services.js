@@ -2,7 +2,7 @@ const User = require('../models/user.model')
 const bcrypt = require('bcryptjs')
 
 const getUserWithEmail = async (email) => {
-  return await User.findOne({ email: email })
+  return await User.findOne({ email })
 }
 
 const createUser = async (email, name, password, avatarImage) => {
@@ -17,8 +17,14 @@ const comparePassword = async (password, user) => {
   return await bcrypt.compare(password, user.password)
 }
 
-const getUsers = async () => {
-  return await User.find({})
+const findUsers = async (userId) => {
+  const users = await User.find({ _id: { $ne: userId } }).select([
+    'email',
+    'name',
+    'avatarImage',
+    '_id'
+  ])
+  return users
 }
 
-module.exports = { getUserWithEmail, createUser, comparePassword, getUsers }
+module.exports = { getUserWithEmail, createUser, comparePassword, findUsers }

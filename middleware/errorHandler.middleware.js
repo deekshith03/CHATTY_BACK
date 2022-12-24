@@ -15,7 +15,6 @@ const handleValidationError = (error, req, res, next) => {
 
 const handleMongooseError = (error, req, res, next) => {
   if (error instanceof Error && error.name === 'MongooseError') {
-    console.error(error)
     return res.status(DB_ERROR).send(wrapper(error.message))
   }
   next(error)

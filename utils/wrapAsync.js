@@ -6,4 +6,4 @@ const wrapAsync = async (controller, req, res, next) => {
   }
 }
 
-module.exports={wrapAsync}
+module.exports = { wrapAsync }

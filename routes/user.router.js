@@ -1,6 +1,10 @@
 const Router = require('express')
 const { body } = require('express-validator')
-const { registerUser, loginUser } = require('../controllers/user.controller')
+const {
+  registerUser,
+  loginUser,
+  getUsers
+} = require('../controllers/user.controller')
 const { wrapAsync } = require('../utils/wrapAsync')
 
 const userRouter = Router()
@@ -27,5 +31,9 @@ userRouter.post(
     wrapAsync(loginUser, req, res, next)
   }
 )
+
+userRouter.get('/getusers/:id', (req, res, next) => {
+  wrapAsync(getUsers, req, res, next)
+})
 
 module.exports = userRouter
