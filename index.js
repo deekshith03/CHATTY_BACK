@@ -45,9 +45,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    users[socket.userID] = users[socket.userID].filter((e) => e !== socket.id)
-    if (users[socket.userID].length === 0) {
-      delete users[socket.userID]
+    if (users[socket.userID]) {
+      users[socket.userID] = users[socket.userID].filter((e) => e !== socket.id)
+      if (users[socket.userID].length === 0) {
+        delete users[socket.userID]
+      }
     }
     io.sockets.emit('offline', Object.keys(users))
     socket.leave(socket.userID)
