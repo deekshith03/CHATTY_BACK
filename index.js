@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', () => {
-    if (users[socket.userID]) {
+    if (users[socket.userID] !== null) {
       users[socket.userID] = users[socket.userID].filter((e) => e !== socket.id)
       if (users[socket.userID].length === 0) {
         delete users[socket.userID]
